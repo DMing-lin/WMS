@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table ref="multipleTable" :data="goodsList" style="max-width:80vw">
+    <el-table ref="multipleTable" :data="goodsList" style="max-width:80vw" v-loading="loading">
       <el-table-column type="selection"></el-table-column>
       <el-table-column prop="id" label="商品编号"></el-table-column>
       <el-table-column label="商品图片">
@@ -23,10 +23,10 @@
     <div style="text-align:center">
       <el-pagination
         background
-        :page-size="pageSize"
+        :page-size="size"
         layout="prev, pager, next"
-        @current-change="getGoodsList()"
-        :total="goodsPages"
+        @current-change="getGoodsList"
+        :total="1020"
       ></el-pagination>
     </div>
   </div>
@@ -36,59 +36,50 @@
 export default {
   data() {
     return {
-      // loading: false,
+      loading: false,
       goodsList: [],
-      pageSize: 5,
-      goodsPages: 0
+      size: 6,
+      page: 0
     };
   },
   methods: {
-    // delGoods(row) {
-    //   this.$confirm(`确定删除${row.name}吗?`, "提示", {
-    //     type: "warning"
-    //   }).then(() => {
-    //     //删除数据
-    //     this.$axios
-    //       .post("http://romove", {
-    //         id: row.id
-    //       })
-    //       .then(res => {
-    //         if (res.date.success) {
-    //           this.$success("删除成功!");
-    //           this.getGoodsList();
-    //         } else {
-    //           this.$fail("删除失败!");
-    //         }
-    //       });
-    //   });
-    // },
-    //获取页数
-    // getGoodspages() {
-    //   this.$axios.get().then(res => {
-    //     this.goodsPages = res.date.count;
-    //   });
-    // },
-    // getGoodsList(pageIdx = 1) {
-    getGoodsList() {
-      // console.log(pageIdx);
-      // this.loading = true;
-      // this.getGoodspages();
+    delGoods(row) {
+      this.$confirm(`确定删除${row.name}吗?`, "提示", {
+        type: "warning"
+      }).then(() => {
+        //删除数据
+        this.$axios
+          .delete("http://localhost:1910/goods", { id: row.id })
+
+          .then(res => {
+            if (res.status) {
+              // $message({
+              //   type: "success",
+              //   message: "删除成功!"
+              // });
+              this.getGoodsList();
+            }
+            // else {
+            //   this.$message({
+            //     type: "info",
+            //     message: "已取消删除"
+            //   });
+            // }
+          });
+      });
+    },
+    async getGoodsList(page = 1) {
+      this.loading = true;
       // 发送请求拿数据
-      this.$axios
-        .get(
-          "http://localhost:1910/goods"
-          // , {
-          //   params: {
-          //     pageIdx,
-          //     pageSize: 5
-          //   }
-          // }
-        )
-        .then(res => {
-          console.log(res.data.data);
-          this.goodsList = res.data.data;
-          // this.loading = false;
-        });
+      let { data } = await this.$axios.get("http://localhost:1910/goods", {
+        params: {
+          page,
+          size: 6
+        }
+      });
+      // console.log(data);
+      this.goodsList = data.data;
+      this.loading = false;
     }
   },
   created() {
