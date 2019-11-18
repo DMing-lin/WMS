@@ -29,6 +29,9 @@ const router = new VueRouter({
             path: 'orderList',
             component: () => import('@/views/orderM/orderList')
         }]
+    }, {
+        path: '/login',
+        component: () => import('@/views/account/login')
     }]
 });
 

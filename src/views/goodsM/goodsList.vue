@@ -26,7 +26,7 @@
         <el-table-column prop="desc" label="描述"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+            <el-button size="mini">编辑</el-button>
             <el-button size="mini" type="danger" @click="delGoods(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -75,21 +75,16 @@ export default {
       this.$confirm(`确定删除${row.name}吗?`, "提示", {
         type: "warning"
       }).then(() => {
-        console.log(row.id);
+        let id = row.id;
+        console.log(id);
 
         //删除数据
-        this.$axios
-          .delete("http://localhost:1910/goods", {
-            params: {
-              id: row.id
-            }
-          })
-
-          .then(res => {
-            if (res.status) {
-              this.getGoodsList();
-            }
-          });
+        this.$axios.delete(`http://localhost:1910/goods/${id}`).then(res => {
+          if (res.status) {
+            this.getGoodsList();
+            console.log(11);
+          }
+        });
       });
     },
     async getGoodsList(page = 1, type) {
