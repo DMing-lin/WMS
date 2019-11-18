@@ -91,12 +91,12 @@ export default {
         //   { required: true, message: "请选择优惠方式", trigger: "change" }
         // ],
         goodsPrice: [
-          { required: true, message: "请输入商品价格" },
-          { type: "number", message: "请输入正确的价格" }
+          { required: true, message: "请输入商品价格" }
+          // { type: "number", message: "请输入正确的价格" }
         ],
         sellingPrice: [
-          { required: true, message: "请输入销售价格" },
-          { type: "number", message: "请输入正确的价格" }
+          { required: true, message: "请输入销售价格" }
+          // { type: "number", message: "请输入正确的价格" }
         ],
         desc: [{ required: true, message: "请填写商品描述" }]
       }
