@@ -71,22 +71,20 @@ export default {
     };
   },
   methods: {
+    //删除数据
     delGoods(row) {
       this.$confirm(`确定删除${row.name}吗?`, "提示", {
         type: "warning"
       }).then(() => {
         let id = row.id;
-        console.log(id);
-
-        //删除数据
         this.$axios.delete(`http://localhost:1910/goods/${id}`).then(res => {
           if (res.status) {
             this.getGoodsList();
-            console.log(11);
           }
         });
       });
     },
+
     async getGoodsList(page = 1, type) {
       this.loading = true;
       // 发送请求拿数据
@@ -98,6 +96,8 @@ export default {
       this.goodsList = data.data;
       this.loading = false;
     },
+
+    //分类
     changeSort(index) {
       this.type = this.$refs.menuItem[index].innerText;
       this.getGoodsList();

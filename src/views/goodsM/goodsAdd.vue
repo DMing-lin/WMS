@@ -15,11 +15,11 @@
         ref="ruleForm"
         style="margin-left:20px"
       >
-        <el-form-item label="商品价格" prop="goodsPrice">
-          <el-input v-model="ruleForm.goodsPrice"></el-input>
+        <el-form-item label="商品价格" prop="price">
+          <el-input v-model="ruleForm.price"></el-input>
         </el-form-item>
-        <el-form-item label="销售价格" style="margin-left:10px" prop="sellingPrice">
-          <el-input v-model="ruleForm.sellingPrice"></el-input>
+        <el-form-item label="分类" style="margin-left:35px" prop="type">
+          <el-input v-model="ruleForm.type"></el-input>
         </el-form-item>
       </el-form>
 
@@ -31,11 +31,11 @@
       <el-form-item label="上架" prop="delivery">
         <el-switch v-model="ruleForm.delivery"></el-switch>
       </el-form-item>
-      <el-form-item label="服务保证" prop="type">
+      <el-form-item label="服务保证" prop="service">
         <el-checkbox-group v-model="ruleForm.type">
-          <el-checkbox label="无忧退货" name="type"></el-checkbox>
-          <el-checkbox label="快速退款" name="type"></el-checkbox>
-          <el-checkbox label="免费包邮" name="type"></el-checkbox>
+          <el-checkbox label="无忧退货" name="service"></el-checkbox>
+          <el-checkbox label="快速退款" name="service"></el-checkbox>
+          <el-checkbox label="免费包邮" name="service"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="优惠方式" prop="resource">
@@ -62,10 +62,10 @@ export default {
       ruleForm: {
         id: "",
         name: "",
-        goodsPrice: "",
-        sellingPrice: "",
+        price: "",
+        type: "",
         // delivery: false,
-        type: [],
+        // service: [],
         // resource: "",
         desc: ""
       },
@@ -90,12 +90,12 @@ export default {
         // resource: [
         //   { required: true, message: "请选择优惠方式", trigger: "change" }
         // ],
-        goodsPrice: [
+        price: [
           { required: true, message: "请输入商品价格" }
           // { type: "number", message: "请输入正确的价格" }
         ],
-        sellingPrice: [
-          { required: true, message: "请输入销售价格" }
+        type: [
+          { required: true, message: "请输入分类名称" }
           // { type: "number", message: "请输入正确的价格" }
         ],
         desc: [{ required: true, message: "请填写商品描述" }]
@@ -106,10 +106,23 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // console.log(this.ruleForm);
+          this.$axios
+            .post("http://localhost:1910/goods", {
+              id: this.ruleForm.id,
+              name: this.ruleForm.name,
+              price: this.ruleForm.price,
+              type: this.ruleForm.type,
+              desc: this.ruleForm.desc
+            })
+            .then(res => {
+              if (res.status) {
+                // console.log(666);
+              }
+            });
           alert("添加成功!");
-          console.log(this.ruleForm);
         } else {
-          console.log("error submit!!");
+          // console.log("error submit!!");
           return false;
         }
       });
