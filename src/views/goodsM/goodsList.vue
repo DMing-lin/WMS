@@ -77,7 +77,7 @@ export default {
         type: "warning"
       }).then(() => {
         let id = row.id;
-        this.$axios.delete(`http://localhost:1910/goods/${id}`).then(res => {
+        this.$axios.delete(`http://120.76.130.35:3435/${id}`).then(res => {
           if (res.status) {
             this.getGoodsList();
           }
@@ -89,7 +89,7 @@ export default {
       this.loading = true;
       // 发送请求拿数据
       type = this.type;
-      let { data } = await this.$axios.get("http://localhost:1910/goods", {
+      let { data } = await this.$axios.get("http://120.76.130.35:3435/goods", {
         params: { page, pagesize: 6, type }
       });
       // console.log(data);

@@ -108,7 +108,7 @@ export default {
         if (valid) {
           // console.log(this.ruleForm);
           this.$axios
-            .post("http://localhost:1910/goods", {
+            .post("http://120.76.130.35:3435/goods", {
               id: this.ruleForm.id,
               name: this.ruleForm.name,
               price: this.ruleForm.price,
